@@ -1,23 +1,25 @@
-def group_anagrams(strs):
-    res = {}
+from typing import List
 
-    for w in strs:
-        counter = [0 for i in range(26)]
 
-        for letter in w:
-            counter[ord(letter) - 97] += 1
+def groupAnagrams(strs: List[str]) -> List[List[str]]:
+    groups = {}
 
-        counter = list(map(str, counter))
+    # [26] 0 -> a, 1 -> b, ..., 25 -> z
 
-        if '#'.join(counter) in res.keys():
-            res['#'.join(counter)].append(w)
+    for s in strs:
+        counter = [0] * 26
+
+        for c in s:
+            i = ord(c) - 97
+            counter[i] += 1
+
+        if tuple(counter) in groups:
+            groups[tuple(counter)].append(s)
         else:
-            res['#'.join(counter)] = [w]
+            groups[tuple(counter)] = [s]
 
-    return [*res.values()]
+    return list(groups.values())
 
 
-print(group_anagrams(["eat", "tea", "tan", "ate", "nat", "bat"]))
-print(group_anagrams([""]))
-print(group_anagrams(["a"]))
-print(group_anagrams(["bdddddddddd", "bbbbbbbbbbc"]))
+strs = ["eat", "tea", "tan", "ate", "nat", "bat"]
+print(groupAnagrams(strs))

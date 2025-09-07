@@ -1,12 +1,20 @@
-def longest_consecutive(nums):
-    current_seq = 0
-    total_seq = 0
+from typing import List
 
-    for i in range(len(nums)):
-        if nums[i + 1] == nums[i] + 1 and i != len(nums) - 1:
-            current_seq += 1
-        else:
-            if current_seq > total_seq:
-                total_seq = current_seq
-            else:
-                current_seq = 0
+
+def longestConsecutive(nums: List[int]) -> int:
+    nums = set(nums)
+    max_length = 0
+
+    for n in nums:
+        # if current number is the start of a sequence
+        if n - 1 not in nums:
+            length = 1
+            while n + length in nums:
+                length += 1
+
+            max_length = max(max_length, length)
+
+    return max_length
+
+
+print(longestConsecutive([100, 4, 200, 1, 3, 2]))
